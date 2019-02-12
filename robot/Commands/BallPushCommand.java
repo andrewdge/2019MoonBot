@@ -7,16 +7,18 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Controls;
 import frc.robot.Robot;
 
-public class BallInCommand extends Command {
+public class BallPushCommand extends InstantCommand {
 
   private Robot robot;
 
-  public BallInCommand(){};
+  public BallPushCommand(){};
 
-  public BallInCommand(Robot robotInstance) {
+  public BallPushCommand(Robot robotInstance) {
+    super();
     robot = robotInstance;
     requires(robot.ballSubsystem);
   }
@@ -24,12 +26,17 @@ public class BallInCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    robot.ballSubsystem.pistonIN();
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Controls.ballIn()){
+      robot.ballSubsystem.pistonIN();
+    } else if(Controls.ballOut()){
+      robot.ballSubsystem.pistonOUT();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
