@@ -34,8 +34,10 @@ public class BallPushCommand extends InstantCommand {
   protected void execute() {
     if (Controls.ballIn()){
       robot.ballSubsystem.pistonIN();
+      System.out.println("pushes piston");
     } else if(Controls.ballOut()){
       robot.ballSubsystem.pistonOUT();
+      System.out.println("pull piston");
     }
   }
 

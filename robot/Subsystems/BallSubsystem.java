@@ -8,11 +8,12 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Controls;
 import frc.robot.IO;
 import frc.robot.Robot;
+import frc.robot.Commands.BallPushCommand;
 
 /**
  * Add your docs here.
@@ -22,30 +23,36 @@ public class BallSubsystem extends Subsystem {
   // here. Call these from Commands.
   private Robot robot;
 
-  DoubleSolenoid ballinout = null;
+  DoubleSolenoid ballinout = new DoubleSolenoid(IO.ballIn, IO.ballOut);
+  Servo ballServo = new Servo(IO.ballServo);
+
 
   public BallSubsystem(){};
 
   public BallSubsystem(Robot robotInstance){
     robot = robotInstance;
-    ballinout = new DoubleSolenoid(IO.ballIn, IO.ballOut);
   }
 
   public void pistonIN(){
-    if (Controls.ballIn()){
       ballinout.set(Value.kForward);
-    }
   }
 
   public void pistonOUT(){
-    if (Controls.ballOut()){
       ballinout.set(Value.kReverse);
-    }
+  }
+
+  public void ballTrapOpen(){
+      ballServo.setSpeed(.5);
+  }
+
+  public void ballTrapClose(){
+      ballServo.setSpeed(-.5);
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new BallPushCommand(robot));
   }
 }

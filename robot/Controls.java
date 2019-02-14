@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 public final class Controls {
     //private constructor
@@ -97,11 +98,19 @@ public final class Controls {
 
 	//Ball IO
 	public static boolean ballIn(){
-		return xboxController.getRawButton(XBOX_AXIS_LTRIGGER);
+		return xboxController.getRawButtonPressed(XBOX_AXIS_LTRIGGER);
 	}
 
 	public static boolean ballOut(){
-		return xboxController.getRawButton(XBOX_AXIS_RTRIGGER);
+		return xboxController.getRawButtonReleased(XBOX_AXIS_LTRIGGER);
+	}
+	
+	public static boolean ballTrapOpen(){
+		return xboxController.getRawButtonPressed(XBOX_AXIS_RTRIGGER);
+	}
+
+	public static boolean ballTrapClose(){
+		return xboxController.getRawButtonReleased(XBOX_AXIS_RTRIGGER);
 	}
 
     /*

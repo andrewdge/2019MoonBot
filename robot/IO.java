@@ -17,7 +17,7 @@ public final class IO{
     public static final int ballIn = 1;
 
     //PWM
-    
+    public static final int ballServo = 0;
     
 
     //analog
