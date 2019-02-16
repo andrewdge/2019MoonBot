@@ -11,13 +11,17 @@ public final class IO{
     public static final int motorDriveLeftBottom = 2;
     public static final int motorDriveRightTop = 3;
     public static final int motorDriveRightBottom = 4;
+    public static final int motorLift = 3; //talon
+    public static final int motorBeaterBar = 5;
+    
     
     //Solenoid
-    public static final int ballOut = 0;
-    public static final int ballIn = 1;
+    public static final int armIn = 0;
+    public static final int armOut = 1;
+    public static final int delivery = 7;
 
     //PWM
-    
+    public static final int ballServo = 0;
     
 
     //analog

@@ -19,10 +19,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Commands.BallInCommand;
+import frc.robot.Commands.BallPushCommand;
 import frc.robot.Subsystems.BallSubsystem;
 import frc.robot.Subsystems.DriveSubsystem;
 
@@ -35,6 +36,9 @@ import frc.robot.Subsystems.DriveSubsystem;
  */
 public class Robot extends TimedRobot {
 
+  SmartDashboard sd;
+  protected boolean x = false;
+
   //Instantiate Subsystem
   public DriveSubsystem driveSubsystem = new DriveSubsystem(this);
   public BallSubsystem ballSubsystem = new BallSubsystem(this);
@@ -43,7 +47,6 @@ public class Robot extends TimedRobot {
   UsbCamera frontcam;
   UsbCamera backcam; 
   boolean prevTrigger = false;
-  VideoSink server;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -51,18 +54,31 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-  
+    
+    //frontcam = new UsbCamera("frontcam", 0);
+    //backcam = new UsbCamera("backcam", 1);
+    //UsbCamera cs = CameraServer.getInstance().startAutomaticCapture("server", 0);
+    //cs.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
+
+
+
+
+
+
+
+
+  /*
   frontcam = CameraServer.getInstance().startAutomaticCapture("frontcam",0);
-  backcam = CameraServer.getInstance().startAutomaticCapture("backcam",1);
+  //backcam = CameraServer.getInstance().startAutomaticCapture("backcam",1);
   frontcam.setFPS(20);
-  backcam.setFPS(20);
+  //backcam.setFPS(20);
+  frontcam.setResolution(320, 240);
   frontcam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-  backcam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+  //backcam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+  */
   
-  server = CameraServer.getInstance().addServer("Camera Stream");
-  
-  server.setSource(frontcam);
-  
+
   
     
 
@@ -80,7 +96,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     Scheduler.getInstance().run();
+    
 
+    /*
     if (Controls.getLeftCamTrigger() && !prevTrigger) {
       System.out.println("Setting camera 2");
       server.setSource(backcam);
@@ -91,6 +109,7 @@ public class Robot extends TimedRobot {
       prevTrigger = false;
     }
     //prevTrigger = Controls.getCamTrigger();
+    */
     
 
   }
@@ -119,6 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+
   }
 
   /**
@@ -136,6 +156,17 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     Scheduler.getInstance().run();
+
+    
+
+    if (Controls.getLeftTriggerArm()==0.0){
+      x = false;
+    } else if(Controls.getLeftTriggerArm()==1.0){
+      x = true;
+    }
+    sd.putBoolean("trigger", x);
+
+
   }
 
   public void disabledInit(){
@@ -143,6 +174,6 @@ public class Robot extends TimedRobot {
   }
 
   public void disabledPeriodic(){
-
+    Scheduler.getInstance().run();
   }
 }

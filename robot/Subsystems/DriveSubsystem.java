@@ -20,6 +20,8 @@ public class DriveSubsystem extends Subsystem {
 
   public DriveSubsystem(Robot robotInstance){
     robot = robotInstance;
+    makeMotorsDangerous();
+    
   }
 
   
@@ -35,6 +37,7 @@ public class DriveSubsystem extends Subsystem {
   private final WPI_VictorSPX leftMaster = new WPI_VictorSPX(IO.motorDriveLeftBottom);
   private final WPI_VictorSPX rightSlave = new WPI_VictorSPX(IO.motorDriveRightTop);
   private final WPI_VictorSPX rightMaster = new WPI_VictorSPX(IO.motorDriveRightBottom);
+  
 
   SpeedControllerGroup left = new SpeedControllerGroup(leftMaster, leftSlave);
   SpeedControllerGroup right = new SpeedControllerGroup(rightMaster, rightSlave);
@@ -42,7 +45,13 @@ public class DriveSubsystem extends Subsystem {
   
   DifferentialDrive drive = new DifferentialDrive(left, right);
 
-  
+  public void makeMotorsDangerous(){
+    leftSlave.setSafetyEnabled(false);
+    leftMaster.setSafetyEnabled(false);
+    rightSlave.setSafetyEnabled(false);
+    rightMaster.setSafetyEnabled(false);
+    
+  }
 
   //drive motors using left and right speeds
   public void tankDrive(double leftSpeed, double rightSpeed){

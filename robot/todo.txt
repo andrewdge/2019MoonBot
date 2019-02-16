@@ -1,0 +1,3 @@
+finish ball trap classes/commands
+
+make sure ballsubsystem controls are used in commands not in subsystem
