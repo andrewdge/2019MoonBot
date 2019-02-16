@@ -7,12 +7,16 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Controls;
 import frc.robot.IO;
 import frc.robot.Robot;
+import frc.robot.Commands.BallPushCommand;
 
 /**
  * Add your docs here.
@@ -22,30 +26,76 @@ public class BallSubsystem extends Subsystem {
   // here. Call these from Commands.
   private Robot robot;
 
-  DoubleSolenoid ballinout = null;
+  DoubleSolenoid ballinout = new DoubleSolenoid(IO.armIn, IO.armOut);
+  Solenoid delivery = new Solenoid(IO.delivery);
+  Servo ballServo = new Servo(IO.ballServo);
+  WPI_VictorSPX intake = new WPI_VictorSPX(IO.motorBeaterBar);
+  
+  
+  
+
 
   public BallSubsystem(){};
 
   public BallSubsystem(Robot robotInstance){
     robot = robotInstance;
-    ballinout = new DoubleSolenoid(IO.ballIn, IO.ballOut);
   }
 
-  public void pistonIN(){
-    if (Controls.ballIn()){
-      ballinout.set(Value.kForward);
-    }
+  //Arm piston
+  public void pistonArmIN(){
+      ballinout.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void pistonOUT(){
-    if (Controls.ballOut()){
-      ballinout.set(Value.kReverse);
-    }
+  public void pistonArmOUT(){
+      ballinout.set(DoubleSolenoid.Value.kReverse);
   }
+
+  //ball deliverer
+  public void delivererIN(){
+      delivery.set(true);
+  }
+
+  public void delivererOUT(){
+      delivery.set(false);
+  }
+
+  
+
+  //ball flap
+  public void ballTrapOpen(){
+      ballServo.set(0.0);
+  }
+
+  public void ballTrapClose(){
+      ballServo.set(1.0);
+  }
+
+  public void ballTrapStop(){
+      ballServo.stopMotor();
+  }
+
+  
+  //beater bar
+  public void beaterForward(){
+      intake.set(1.0);
+  }
+
+  public void beaterReverse(){
+      intake.set(-1.0);
+  }
+
+  public void beaterStop(){
+      intake.stopMotor();
+  }
+
+  
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new BallPushCommand(robot));
+    
+    
   }
 }

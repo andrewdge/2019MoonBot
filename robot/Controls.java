@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public final class Controls {
     //private constructor
@@ -62,7 +64,8 @@ public final class Controls {
     //joysticks
     private static Joystick joystickDriveLeft = new Joystick(0);
     private static Joystick joystickDriveRight = new Joystick(1);
-	private static Joystick xboxController = new Joystick(2);
+	private static XboxController xboxController = new XboxController(2);
+	
 	
 	public static boolean getLeftCamTrigger(){
 		return joystickDriveRight.getRawButton(JOYSTICK_BUTTON_1);
@@ -95,14 +98,32 @@ public final class Controls {
 	}
 	
 
-	//Ball IO
-	public static boolean ballIn(){
-		return xboxController.getRawButton(XBOX_AXIS_LTRIGGER);
+	//Arm IO
+	public static double getLeftTriggerArm(){
+		return xboxController.getTriggerAxis(Hand.kLeft);
 	}
 
-	public static boolean ballOut(){
-		return xboxController.getRawButton(XBOX_AXIS_RTRIGGER);
+	
+	//Servo
+	public static double getRightTriggerFlap(){
+		return xboxController.getTriggerAxis(Hand.kRight);
 	}
+
+	//
+	public static boolean getY(){
+		return xboxController.getYButton();
+	}
+
+	//Ball deploy
+	public static boolean getBumperLeft(){
+		return xboxController.getBumper(Hand.kLeft);
+	}
+
+	//hatch deploy
+	public static boolean getBumperRight(){
+		return xboxController.getBumper(Hand.kRight);
+	}
+
 
     /*
     //elevator controls
